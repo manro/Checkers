@@ -1,0 +1,22 @@
+﻿body 
+{
+    font-family: Tahoma;
+    font-size: 12px;
+    padding: 0px;
+    margin: 0px;
+}
+
+#board
+{
+    margin: 0 auto;
+    top: 50px;
+}
+
+#message
+{
+    left: 0px;
+    top: 0px;
+    position: absolute;
+    width: 200px;
+    height: 200px;
+}

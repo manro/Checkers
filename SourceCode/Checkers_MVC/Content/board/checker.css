@@ -1,0 +1,22 @@
+﻿.checker
+{
+    position: absolute;
+    z-index: 2;
+    margin: 0;
+    padding: 0;
+    display: block;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.checker-white
+{
+    background-color: White;
+    border: 1px solid #808080;
+}
+
+.checker-black
+{
+    background-color: Black;
+    border: 1px solid #808080;
+}
