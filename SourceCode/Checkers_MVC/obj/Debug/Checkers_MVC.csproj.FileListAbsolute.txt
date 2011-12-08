@@ -5,3 +5,10 @@ D:\My\My_DotNET_Projects\Checkers\Checkers_MVC\Checkers_MVC\bin\EntityFramework.
 D:\My\My_DotNET_Projects\Checkers\Checkers_MVC\Checkers_MVC\obj\Debug\ResolveAssemblyReference.cache
 D:\My\My_DotNET_Projects\Checkers\Checkers_MVC\Checkers_MVC\obj\Debug\Checkers_MVC.dll
 D:\My\My_DotNET_Projects\Checkers\Checkers_MVC\Checkers_MVC\obj\Debug\Checkers_MVC.pdb
+D:\My\My_DotNET_Projects\Checkers\Checkers_MVC_GitHub\SourceCode\Checkers_MVC\bin\Checkers_MVC.dll
+D:\My\My_DotNET_Projects\Checkers\Checkers_MVC_GitHub\SourceCode\Checkers_MVC\bin\Checkers_MVC.pdb
+D:\My\My_DotNET_Projects\Checkers\Checkers_MVC_GitHub\SourceCode\Checkers_MVC\bin\EntityFramework.dll
+D:\My\My_DotNET_Projects\Checkers\Checkers_MVC_GitHub\SourceCode\Checkers_MVC\bin\EntityFramework.xml
+D:\My\My_DotNET_Projects\Checkers\Checkers_MVC_GitHub\SourceCode\Checkers_MVC\obj\Debug\ResolveAssemblyReference.cache
+D:\My\My_DotNET_Projects\Checkers\Checkers_MVC_GitHub\SourceCode\Checkers_MVC\obj\Debug\Checkers_MVC.dll
+D:\My\My_DotNET_Projects\Checkers\Checkers_MVC_GitHub\SourceCode\Checkers_MVC\obj\Debug\Checkers_MVC.pdb
