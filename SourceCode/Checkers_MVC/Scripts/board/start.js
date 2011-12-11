@@ -1,8 +1,8 @@
-﻿/// <reference path="../jquery-1.7.min.js" />
+﻿/// <reference path="../jquery-1.7.1.min.js" />
 /// <reference path="board.js" />
 
 $(document).ready(function () {
-var boardargs = 
+    var boardargs =
     {
         cells: 8,
         cell_width: 32,
@@ -21,4 +21,6 @@ var boardargs =
 
 
     $("#board").board(boardargs);
+    
+    
 });
