@@ -11,6 +11,7 @@ namespace Checkers_MVC.Controllers
     {
         //
         // GET: /Checkers/
+        [HttpGet]
         public ViewResult Index()
         {
             if (Session["Board"] == null)
