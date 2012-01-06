@@ -71,6 +71,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\CheckersDB.mdf" />
+    <Content Include="App_Data\CheckersDB_log.ldf">
+      <DependentUpon>CheckersDB.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\board\board.css" />
     <Content Include="Content\board\checker.css" />
     <Content Include="Content\board\main.css" />
@@ -172,6 +176,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

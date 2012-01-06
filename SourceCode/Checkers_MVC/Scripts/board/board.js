@@ -1,4 +1,4 @@
-﻿/// <reference path="../jquery-1.7.min.js" />
+﻿/// <reference path="../jquery-1.7.1.min.js" />
 /// <reference path="../jquery-ui-1.8.16.min.js" />
 /// <reference path="execute_ajax.js" />
 
@@ -31,6 +31,12 @@ $.fn.board = function (boardargs) {
         }
         if (boardargs.board_label_class == null || boardargs.board_label_class == undefined) {
             boardargs.board_label_class = "board-label";
+        }
+        if (boardargs.checker_width == null || boardargs.checker_width == undefined) {
+            boardargs.checker_width = "24px";
+        }
+        if (boardargs.checker_height == null || boardargs.checker_height == undefined) {
+            boardargs.checker_height = "24px";
         }
         if (boardargs.checker_class == null || boardargs.checker_class == undefined) {
             boardargs.checker_class = "checker";
@@ -107,7 +113,7 @@ $.fn.board = function (boardargs) {
             }
         }
 
-       // $(this).hide();
+        // $(this).hide();
         $(this).checkers(boardargs);
         //$(this).checkers(boardargs);
         //        var ajax_timer = setInterval(function () {
@@ -148,21 +154,42 @@ $.fn.checkers = function (checkersargs) {
                     if (value > 0) {
                         var i = ((index_in - index_in % checkersargs.cells) / checkersargs.cells);
                         var j = (index_in % checkersargs.cells);
-                        var checker = $("<div />").appendTo(context)
-                    .addClass(checkersargs.checker_class)
-                    .addClass(color_class_arr[index_out])
-                    .width(Math.round(checkersargs.cell_width * 0.75))
-                    .height(Math.round(checkersargs.cell_height * 0.75))
-                    .attr("checker_id", value);
+                        var checker = $("<div />")
+                        .appendTo(context)
+                        //.appendTo($("." + checkersargs.cell_class+"[i="+i+"][j="+j+"]"))
+                        .addClass(checkersargs.checker_class)
+                        .addClass(color_class_arr[index_out])
+                        .width(Math.round(checkersargs.checker_width))
+                        .height(Math.round(checkersargs.checker_height))
+                        .attr("checker_id", value)
+                        .attr("i", i)
+                        .attr("j", j);
 
                         $(checker)
-                    .css("top", i * checkersargs.cell_height + Math.round((checkersargs.cell_height * 0.25) / 2) + Math.round(($(checker).width() - $(checker).outerWidth()) / 2))
-                    .css("left", j * checkersargs.cell_width + Math.round((checkersargs.cell_width * 0.25) / 2) + Math.round(($(checker).width() - $(checker).outerWidth()) / 2));
+                        .css("top", i * checkersargs.cell_height + Math.round((checkersargs.cell_height - checkersargs.checker_height) / 2) + Math.round(($(checker).width() - $(checker).outerWidth()) / 2))
+                        .css("left", j * checkersargs.cell_width + Math.round((checkersargs.cell_width - checkersargs.checker_width) / 2) + Math.round(($(checker).width() - $(checker).outerWidth()) / 2));
+                        //.css("top", Math.round((checkersargs.cell_height - checkersargs.checker_height) / 2) + Math.round(($(checker).width() - $(checker).outerWidth()) / 2))
+                        //.css("left", Math.round((checkersargs.cell_width - checkersargs.checker_width) / 2) + Math.round(($(checker).width() - $(checker).outerWidth()) / 2));
 
                         $(checker).draggable({
-                            containment: [parseInt($(context).offset().left), parseInt($(context).offset().top), parseInt($(context).offset().left) + Math.round(checkersargs.cell_width * (checkersargs.cells - 0.75)), parseInt($(context).offset().top) + Math.round(checkersargs.cell_height * (checkersargs.cells - 0.75))], // $(context).selector.toString()
+                            containment: [parseInt($(context).offset().left), parseInt($(context).offset().top), parseInt($(context).offset().left) + Math.round(checkersargs.cell_width * (checkersargs.cells - (checkersargs.checker_width / checkersargs.cell_width))), parseInt($(context).offset().top) + Math.round(checkersargs.cell_height * (checkersargs.cells - (checkersargs.checker_height / checkersargs.cell_height)))], // $(context).selector.toString()
                             zIndex: 100,
                             opacity: 0.75,
+                            start: function () { /*$(this).parent().css("zIndex", "50");*/ },
+                            stop: function () { /*$(this).parent().css("zIndex", "3");*/  }
+                        });
+
+                        $("." + checkersargs.cell_class).each(function () {
+                            $(this).droppable({
+                                accept: function (element) {
+                                    var result = false;
+                                    if ($(element).hasClass(checkersargs.checker_class) &&
+                                        $(element).attr("i") == $(this).attr("i") &&
+                                        $(element).attr("j") == $(this).attr("j"))
+                                        result = true;
+                                    return result;
+                                }
+                            });
                         });
                     }
                 });
