@@ -138,6 +138,8 @@
     <Content Include="Content\Site.css" />
     <Content Include="README.jQuery.vsdoc.txt" />
     <Content Include="Scripts\board\board.js" />
+    <Content Include="Scripts\board\checkers.js" />
+    <Content Include="Scripts\board\point_in_circuit.js" />
     <Content Include="Scripts\board\execute_ajax.js" />
     <Content Include="Scripts\board\start.js" />
     <Content Include="Scripts\jquery-1.7.1-vsdoc.js" />

@@ -1,0 +1,15 @@
+﻿@model Checkers_MVC.Models.Board
+
+@{
+    ViewBag.Title = "Let's Check!";
+}
+<<<<<<< HEAD
+<header id="header">
+   
+</header>
+=======
+>>>>>>> ccbafcc6506566779722022adf24490738ac39dc
+<div id="board"></div>
+<div id="message"></div>
+
+@*<h2>Index</h2>*@
