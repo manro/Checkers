@@ -138,6 +138,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="README.jQuery.vsdoc.txt" />
     <Content Include="Scripts\board\board.js" />
+    <Content Include="Scripts\board\board_prototype.js" />
     <Content Include="Scripts\board\checkers.js" />
     <Content Include="Scripts\board\point_in_circuit.js" />
     <Content Include="Scripts\board\execute_ajax.js" />

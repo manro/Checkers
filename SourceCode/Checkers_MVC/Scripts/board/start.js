@@ -20,7 +20,8 @@ $(document).ready(function () {
     };
 
 
-    $("#board").board(boardargs);
+    //$("#board").board(boardargs);
+    $("#board").board_p();
     
     
 });
