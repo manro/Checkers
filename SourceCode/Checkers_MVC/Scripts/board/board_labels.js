@@ -50,10 +50,10 @@
                                 board_label.text(settings.cells - i)
                                         .css("left", left)
                                         .css("top", i * cell_h + (cell_h - board_label.height()) / 2);
-                            }
-                        }
-                    }
-                }
+                            };
+                        };
+                    };
+                };
             });
         }
     };

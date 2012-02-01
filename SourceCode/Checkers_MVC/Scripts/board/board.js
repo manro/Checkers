@@ -32,11 +32,25 @@
                 'cell_class': 'cell',
                 'cell_white_class': 'cell-white',
                 'cell_black_class': 'cell-black',
+                'checker_width': '24px',
+                'checker_height': '24px',
+                'checker_class': 'checker',
                 'checker_white_class': 'checker-white',
                 'checker_black_class': 'checker-black',
+                'king_white_class': 'king-white',
+                'king_black_class': 'king-black',
                 'board_array': board_array,
                 'board_dictionary': board_dictionary
             }, options);
+
+            var color_classes = [settings.cell_white_class,
+                                 settings.cell_black_class,
+                                 settings.checker_white_class,
+                                 settings.checker_black_class,
+                                 settings.king_white_class,
+                                 settings.king_black_class, ];
+
+            settings = $.extend({ 'color_classes': color_classes }, settings);
 
             var color_classes = [settings.cell_white_class.toString(), settings.cell_black_class.toString()];
 
@@ -59,13 +73,13 @@
                         .css("top", i * cell_h)
                         .attr("i", i)
                         .attr("j", j);
-                    }
-                }
+                    };
+                };
 
                 if (settings.board_labels) {
                     //draw labels
                     $(this).board_labels(settings);
-                }
+                };
 
                 //draw checkers
                 $(this).checkers(settings);
