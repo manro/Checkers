@@ -8,10 +8,8 @@
     var methods = {
         //INIT
         init: function (options) {
-            var settings = $.extend({
-                'cells': 8,
-                'board_label_class': 'board-label'
-            }, options);
+
+            var settings = $.extend({}, options);
 
             return this.each(function () {
                 // draw labels
@@ -58,7 +56,7 @@
                 }
             });
         }
-    }
+    };
 
     $.fn.board_labels = function (method) {
         if (methods[method]) {
@@ -68,5 +66,5 @@
             return methods.init.apply(this, arguments);
         }
         else $.error('Method ' + method + ' does not exist');
-    }
+    };
 })(jQuery)
