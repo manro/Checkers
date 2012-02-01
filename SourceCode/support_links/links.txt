@@ -1,0 +1,4 @@
+http://ryanflorence.com/jquery-addobject-managing-a-plugins-state-with-the-jquery-api/
+http://msdn.microsoft.com/en-us/scriptjunkie/ff608209
+http://enterprisejquery.com/2010/07/create-your-first-jquery-plugin-part-2-revising-your-plugin/
+http://blog.jeremymartin.name/2008/02/building-your-first-jquery-plugin-that.html
