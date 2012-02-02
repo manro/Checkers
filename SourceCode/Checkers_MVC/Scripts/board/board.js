@@ -1,8 +1,9 @@
-﻿/// <reference path="../jquery-1.7.1.min.js" />
+﻿/// <reference path="../jquery-1.7.1-vsdoc.js" />
+
 
 (function ($) {
 
-    var board_array = [0, 3, 0, 3, 0, 3, 0, 3,
+    var board_array = [ 0, 3, 0, 3, 0, 3, 0, 3,
                         3, 0, 3, 0, 3, 0, 3, 0,
                         0, 3, 0, 3, 0, 3, 0, 3,
                         1, 0, 1, 0, 1, 0, 1, 0,
@@ -25,15 +26,15 @@
         init: function (options) {
             var settings = $.extend({
                 'cells': 8,
-                'cell_width': '32px',
-                'cell_height': '32px',
+                'cell_width': '64', // in px
+                'cell_height': '64', // in px
                 'board_labels': true,
                 'board_label_class': 'board-label',
                 'cell_class': 'cell',
                 'cell_white_class': 'cell-white',
                 'cell_black_class': 'cell-black',
-                'checker_width': '24px',
-                'checker_height': '24px',
+                'checker_width': '48', // in px
+                'checker_height': '48', // in px
                 'checker_class': 'checker',
                 'checker_white_class': 'checker-white',
                 'checker_black_class': 'checker-black',
@@ -44,35 +45,49 @@
             }, options);
 
             var color_classes = [settings.cell_white_class,
-                                 settings.cell_black_class,
-                                 settings.checker_white_class,
-                                 settings.checker_black_class,
-                                 settings.king_white_class,
-                                 settings.king_black_class, ];
+                                  settings.cell_black_class,
+                                  settings.checker_white_class,
+                                  settings.checker_black_class,
+                                  settings.king_white_class,
+                                  settings.king_black_class, ];
 
             settings = $.extend({ 'color_classes': color_classes }, settings);
 
-            var color_classes = [settings.cell_white_class.toString(), settings.cell_black_class.toString()];
+            //var color_classes = [settings.cell_white_class.toString(), settings.cell_black_class.toString()];
 
             return this.each(function () {
                 // draw board
-                var cell_w = parseInt(settings.cell_width);
-                var cell_h = parseInt(settings.cell_height);
-
-                $(this).width(cell_w * settings.cells);
-                $(this).height(cell_h * settings.cells);
+                $(this).width(settings.cell_width * settings.cells);
+                $(this).height(settings.cell_height * settings.cells);
                 $(this).css("position", "relative").css("border", "1px solid black");
                 for (var i = 0; i < settings.cells; i++) {
                     for (var j = 0; j < settings.cells; j++) {
-                        $("<div />").appendTo($(this))
+                        var cell = $("<div />").appendTo($(this))
                         .addClass(settings.cell_class)
                         .addClass(color_classes[(i + j) % 2])
-                        .css("width", cell_w)
-                        .css("height", cell_h)
-                        .css("left", j * cell_w)
-                        .css("top", i * cell_h)
+                        .css("width", settings.cell_width)
+                        .css("height", settings.cell_height)
+                        .css("left", j * settings.cell_width)
+                        .css("top", i * settings.cell_height)
                         .attr("i", i)
                         .attr("j", j);
+
+                        $(cell).droppable({
+                            accept: function (element) {
+                                if (get_board_number_by_i_j($(this).attr("i"), $(this).attr("j"), settings) > board_dictionary.not_play &&
+                                    $(this).children().length < 1)
+                                    return true;
+                                else
+                                    return false;
+                            },
+                            drop: function (event, ui) {
+                                var checker = ui.draggable;
+                                $(checker).parent().css("zIndex", "1");
+                                $(this).append(checker);
+                                $(checker).attr("i", $(this).attr("i")).attr("j", $(this).attr("j"));
+                                position_checker_in_cell(ui.draggable, settings);
+                            }
+                        });
                     };
                 };
 
