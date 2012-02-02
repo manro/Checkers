@@ -41,7 +41,7 @@
                         .attr("i", i)
                         .attr("j", j);
 
-                position_checker_in_cell(checker, settings);
+                set_position_checker_in_cell(checker, settings);
 
                 $(checker).draggable({ containment: [parseInt($(board).offset().left),
                                                      parseInt($(board).offset().top),
@@ -51,9 +51,11 @@
                                                         + Math.round(settings.cell_height * (settings.cells - (settings.checker_height / settings.cell_height)))],
                     zIndex: 3,
                     opacity: 0.75,
-                    start: function () { $(this).parent().css("zIndex", "2"); }
+                    start: function () { $(this).parent().css("zIndex", "2"); },
                     //,stop: function () { $(this).parent().css("zIndex", "1"); }
-                    ,revert: true
+                    revert: true,
+                    revertDuration: '250',
+                    cursorAt: { left: parseInt(settings.checker_width / 2, 10), top: parseInt(settings.checker_height / 2, 10) }
                 });
 
             };

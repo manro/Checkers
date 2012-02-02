@@ -85,7 +85,7 @@
                                 $(checker).parent().css("zIndex", "1");
                                 $(this).append(checker);
                                 $(checker).attr("i", $(this).attr("i")).attr("j", $(this).attr("j"));
-                                position_checker_in_cell(ui.draggable, settings);
+                                set_position_checker_in_cell(ui.draggable, settings);
                             }
                         });
                     };
