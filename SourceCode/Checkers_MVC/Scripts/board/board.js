@@ -3,7 +3,7 @@
 
 (function ($) {
 
-    var board_array = [ 0, 3, 0, 3, 0, 3, 0, 3,
+    var board_array = [0, 3, 0, 3, 0, 3, 0, 3,
                         3, 0, 3, 0, 3, 0, 3, 0,
                         0, 3, 0, 3, 0, 3, 0, 3,
                         1, 0, 1, 0, 1, 0, 1, 0,
@@ -26,15 +26,15 @@
         init: function (options) {
             var settings = $.extend({
                 'cells': 8,
-                'cell_width': '64', // in px
-                'cell_height': '64', // in px
+                'cell_width': '32', // in px
+                'cell_height': '32', // in px
                 'board_labels': true,
                 'board_label_class': 'board-label',
                 'cell_class': 'cell',
                 'cell_white_class': 'cell-white',
                 'cell_black_class': 'cell-black',
-                'checker_width': '48', // in px
-                'checker_height': '48', // in px
+                'checker_width': '24', // in px
+                'checker_height': '24', // in px
                 'checker_class': 'checker',
                 'checker_white_class': 'checker-white',
                 'checker_black_class': 'checker-black',
@@ -49,7 +49,7 @@
                                   settings.checker_white_class,
                                   settings.checker_black_class,
                                   settings.king_white_class,
-                                  settings.king_black_class, ];
+                                  settings.king_black_class];
 
             settings = $.extend({ 'color_classes': color_classes }, settings);
 
@@ -57,6 +57,7 @@
 
             return this.each(function () {
                 // draw board
+                var cells = new Array();
                 $(this).width(settings.cell_width * settings.cells);
                 $(this).height(settings.cell_height * settings.cells);
                 $(this).css("position", "relative").css("border", "1px solid black");
@@ -72,24 +73,37 @@
                         .attr("i", i)
                         .attr("j", j);
 
-                        $(cell).droppable({
-                            accept: function (element) {
-                                if (get_board_number_by_i_j($(this).attr("i"), $(this).attr("j"), settings) > board_dictionary.not_play &&
-                                    $(this).children().length < 1)
-                                    return true;
-                                else
-                                    return false;
-                            },
-                            drop: function (event, ui) {
-                                var checker = ui.draggable;
-                                $(checker).parent().css("zIndex", "1");
-                                $(this).append(checker);
-                                $(checker).attr("i", $(this).attr("i")).attr("j", $(this).attr("j"));
-                                set_position_checker_in_cell(ui.draggable, settings);
-                            }
+                        cells.push(cell);
+                        $(cell).mousedown(function (event, ui) {
+                            $(this).on("drop", function (event, ui) {
+                                console.log(ui);
+                            });
                         });
                     };
                 };
+
+                $(cells).each(function () {
+                    var cell = $(this);
+                    $(cell).droppable({
+                        accept: function (element) {
+                            //                                if (get_board_number_by_i_j($(this).attr("i"), $(this).attr("j"), settings) > board_dictionary.not_play &&
+                            //                                    $(this).children().length < 1)
+                            //                                    return true;
+                            //                                else
+                            //                                    return false;
+                            //console.log(cell);
+                            return true;
+                            //return enable_move(element, cell, settings);
+                        },
+                        drop: function (event, ui) {
+                            var checker = ui.draggable;
+                            $(checker).parent().css("zIndex", "1");
+                            $(this).append(checker);
+                            $(checker).attr("i", $(this).attr("i")).attr("j", $(this).attr("j"));
+                            set_position_checker_in_cell(ui.draggable, settings);
+                        }
+                    });
+                });
 
                 if (settings.board_labels) {
                     //draw labels
