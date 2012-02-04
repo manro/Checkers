@@ -73,37 +73,36 @@
                         .attr("i", i)
                         .attr("j", j);
 
-                        cells.push(cell);
-                        $(cell).mousedown(function (event, ui) {
-                            $(this).on("drop", function (event, ui) {
-                                console.log(ui);
+                        $(cell).bind('mouseenter', function () {
+                            $(this).droppable({
+                                accept: function (element) {
+                                    //                                if (get_board_number_by_i_j($(this).attr("i"), $(this).attr("j"), settings) > board_dictionary.not_play &&
+                                    //                                    $(this).children().length < 1)
+                                    //                                    return true;
+                                    //                                else
+                                    //                                    return false;
+                                    console.log(this);
+                                    //return true;
+                                    return enable_move(element, this, settings);
+                                },
+                                drop: function (event, ui) {
+                                    var checker = ui.draggable;
+                                    $(checker).parent().css("zIndex", "1");
+                                    $(this).append(checker);
+                                    $(checker).attr("i", $(this).attr("i")).attr("j", $(this).attr("j"));
+                                    set_position_checker_in_cell(ui.draggable, settings);
+                                }
                             });
                         });
+
+                        $(cell).bind('mouseleave', function () {
+                            $(this).droppable('destroy');
+                        });
+
+
+
                     };
                 };
-
-                $(cells).each(function () {
-                    var cell = $(this);
-                    $(cell).droppable({
-                        accept: function (element) {
-                            //                                if (get_board_number_by_i_j($(this).attr("i"), $(this).attr("j"), settings) > board_dictionary.not_play &&
-                            //                                    $(this).children().length < 1)
-                            //                                    return true;
-                            //                                else
-                            //                                    return false;
-                            //console.log(cell);
-                            return true;
-                            //return enable_move(element, cell, settings);
-                        },
-                        drop: function (event, ui) {
-                            var checker = ui.draggable;
-                            $(checker).parent().css("zIndex", "1");
-                            $(this).append(checker);
-                            $(checker).attr("i", $(this).attr("i")).attr("j", $(this).attr("j"));
-                            set_position_checker_in_cell(ui.draggable, settings);
-                        }
-                    });
-                });
 
                 if (settings.board_labels) {
                     //draw labels
