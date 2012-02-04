@@ -57,7 +57,6 @@
                     revertDuration: '250',
                     cursorAt: { left: parseInt(settings.checker_width / 2, 10), top: parseInt(settings.checker_height / 2, 10) }
                 });
-
             };
         };
     };

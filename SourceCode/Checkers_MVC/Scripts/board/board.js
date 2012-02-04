@@ -57,7 +57,6 @@
 
             return this.each(function () {
                 // draw board
-                var cells = new Array();
                 $(this).width(settings.cell_width * settings.cells);
                 $(this).height(settings.cell_height * settings.cells);
                 $(this).css("position", "relative").css("border", "1px solid black");
@@ -73,33 +72,27 @@
                         .attr("i", i)
                         .attr("j", j);
 
-                        $(cell).bind('mouseenter', function () {
-                            $(this).droppable({
-                                accept: function (element) {
-                                    //                                if (get_board_number_by_i_j($(this).attr("i"), $(this).attr("j"), settings) > board_dictionary.not_play &&
-                                    //                                    $(this).children().length < 1)
-                                    //                                    return true;
-                                    //                                else
-                                    //                                    return false;
-                                    console.log(this);
-                                    //return true;
-                                    return enable_move(element, this, settings);
-                                },
-                                drop: function (event, ui) {
-                                    var checker = ui.draggable;
-                                    $(checker).parent().css("zIndex", "1");
-                                    $(this).append(checker);
-                                    $(checker).attr("i", $(this).attr("i")).attr("j", $(this).attr("j"));
-                                    set_position_checker_in_cell(ui.draggable, settings);
-                                }
-                            });
+
+                        $(cell).droppable({
+                            accept: function (element) {
+                                console.log($(this));
+                                if (get_board_number_by_i_j($(this).attr("i"), $(this).attr("j"), settings) > board_dictionary.not_play &&
+                                    $(this).children().length < 1)
+                                    return true;
+                                else
+                                    return false;
+                                
+                                //return true;
+                                //return enable_move(element, this, settings);
+                            },
+                            drop: function (event, ui) {
+                                var checker = ui.draggable;
+                                $(checker).parent().css("zIndex", "1");
+                                $(this).append(checker);
+                                $(checker).attr("i", $(this).attr("i")).attr("j", $(this).attr("j"));
+                                set_position_checker_in_cell(ui.draggable, settings);
+                            }
                         });
-
-                        $(cell).bind('mouseleave', function () {
-                            $(this).droppable('destroy');
-                        });
-
-
 
                     };
                 };
