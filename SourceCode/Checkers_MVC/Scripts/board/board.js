@@ -74,20 +74,12 @@
 
 
                         $(cell).droppable({
-                            accept: function (element) {
-                                console.log($(this));
-                                if (get_board_number_by_i_j($(this).attr("i"), $(this).attr("j"), settings) > board_dictionary.not_play &&
-                                    $(this).children().length < 1)
-                                    return true;
-                                else
-                                    return false;
-                                
-                                //return true;
-                                //return enable_move(element, this, settings);
-                            },
                             drop: function (event, ui) {
                                 var checker = ui.draggable;
+                                if (!enable_move(checker, this, settings))
+                                    return false;
                                 $(checker).parent().css("zIndex", "1");
+                                settings = change_in_board_array($(checker).parent(), $(this), settings);
                                 $(this).append(checker);
                                 $(checker).attr("i", $(this).attr("i")).attr("j", $(this).attr("j"));
                                 set_position_checker_in_cell(ui.draggable, settings);

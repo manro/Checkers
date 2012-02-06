@@ -52,7 +52,7 @@
                     zIndex: 3,
                     opacity: 0.75,
                     start: function () { $(this).parent().css("zIndex", "2"); },
-                    //,stop: function () { $(this).parent().css("zIndex", "1"); }
+                    stop: function () { $(this).parent().css("zIndex", "1"); },
                     revert: true,
                     revertDuration: '250',
                     cursorAt: { left: parseInt(settings.checker_width / 2, 10), top: parseInt(settings.checker_height / 2, 10) }
