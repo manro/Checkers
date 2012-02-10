@@ -1,0 +1,13 @@
+//                        console.log(" ");
+                //                        console.log("x: " + x.toString());
+                //                        console.log("y: " + y.toString());
+                //                        console.log("checker_i + x > 0: " + (checker_i + x > 0));
+                //                        console.log("checker_i + x < cells - 1: " + (checker_i + x < cells - 1));
+                //                        console.log("checker_j + y > 0: " + (checker_j + y > 0));
+                //                        console.log("checker_j + y < cells - 1: " + (checker_j + y < cells - 1));
+                //                        console.log("get_board_number_by_i_j(checker_i + x, checker_j + y, settings) != checker_type: " + (get_board_number_by_i_j(checker_i + x, checker_j + y, settings) != checker_type));
+                //                        console.log("get_board_number_by_i_j(checker_i + x, checker_j + y, settings) != checker_type + 2: " + (get_board_number_by_i_j(checker_i + x, checker_j + y, settings) != checker_type + 2));
+                //                        console.log("get_board_number_by_i_j(checker_i + x, checker_j + y, settings) > settings.board_dictionary.play: " + (get_board_number_by_i_j(checker_i + x, checker_j + y, settings) > settings.board_dictionary.play));
+                //                        console.log("get_board_number_by_i_j(checker_i + 2 * x, checker_j + 2 * y, settings) == settings.board_dictionary.play: " + (get_board_number_by_i_j(checker_i + 2 * x, checker_j + 2 * y, settings) == settings.board_dictionary.play));
+                //                        console.log(" ");
+                //                        console.log(get_board_number_by_i_j(checker_i + x, checker_j + y, settings).toString() + " " + checker_type.toString());

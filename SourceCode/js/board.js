@@ -4,7 +4,7 @@
 (function ($) {
 
     // Default board array - older will get by AJAX from server
-    var board_array = [ 0, 3, 0, 3, 0, 3, 0, 3,
+    var board_array = [0, 3, 0, 3, 0, 3, 0, 3,
                         3, 0, 3, 0, 3, 0, 3, 0,
                         0, 3, 0, 3, 0, 3, 0, 3,
                         1, 0, 1, 0, 1, 0, 1, 0,
@@ -53,19 +53,35 @@
                                   settings.checker_white_class,
                                   settings.checker_black_class,
                                   settings.king_white_class,
-                                  settings.king_black_class ];
+                                  settings.king_black_class];
+            
+            //checkers array combinations for comfort use
+            var only_checkers = [board_dictionary.white_checker, board_dictionary.black_checker];
+            var only_kings = [board_dictionary.white_king, board_dictionary.black_king];
+            var move_checkers = {
+                'white': [board_dictionary.white_checker, board_dictionary.white_king],
+                'black': [board_dictionary.black_checker, board_dictionary.black_king]
+            };
+            var current_checkers_move = move_checkers.white;
 
-            settings = $.extend(settings, { 'color_classes': color_classes });
+            //extend settings comfort options
+            settings = $.extend(settings, {
+                'color_classes': color_classes,
+                'only_checkers': only_checkers,
+                'only_kings': only_kings,
+                'move_checkers': move_checkers,
+                'current_checkers_move': current_checkers_move 
+                });
 
             //var color_classes = [settings.cell_white_class.toString(), settings.cell_black_class.toString()];
 
             return this.each(function () {
-                
+
                 // draw board - set border and width/height
                 $(this).css("position", "relative").css("border", "1px solid black")
                        .width(settings.cell_width * settings.cells)
                        .height(settings.cell_height * settings.cells);
-                
+
                 // draw cells
                 for (var i = 0; i < settings.cells; i++) {
                     for (var j = 0; j < settings.cells; j++) {

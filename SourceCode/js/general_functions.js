@@ -1,23 +1,38 @@
 ﻿/// <reference path="../jquery-1.7.1-vsdoc.js" />
 
+if (!Array.indexOf) {
+    Array.prototype.indexOf = function (obj) {
+        for (var i = 0; i < this.length; i++) {
+            if (this[i] == obj) {
+                return i;
+            }
+        }
+        return -1;
+    }
+}
+
 function set_position_checker_in_cell(checker, settings) {
     $(checker)
     .css("top", Math.round((settings.cell_height - settings.checker_height) / 2) + Math.round(($(checker).height() - $(checker).outerHeight()) / 2))
     .css("left", Math.round((settings.cell_width - settings.checker_width) / 2) + Math.round(($(checker).width() - $(checker).outerWidth()) / 2));
 };
 
-function get_board_number_by_i_j(i, j, settings) {
+function get_checker_type_by_ij(i, j, settings) {
     return parseInt(settings.board_array[parseInt(i, 10) * parseInt(settings.cells, 10) + parseInt(j, 10)], 10);
 };
 
-function get_i_j_by_array_id(id, settings) {
+function get_ij_by_array_id(id, settings) {
     var i = parseInt(parseInt(id, 10) / settings.cells, 10);
     var j = parseInt(id, 10) % settings.cells;
     return { 'i': i, 'j': j };
 };
 
-function set_board_number_by_i_j(i, j, new_number, settings) {
-    settings.board_array[parseInt(i, 10) * parseInt(settings.cells, 10) + parseInt(j, 10)] = new_number;
+function get_array_id_by_ij(i, j, settings) {
+    return parseInt(i, 10) * settings.cells + parseInt(j, 10);
+};
+
+function set_checker_type_by_ij(i, j, new_checker_type, settings) {
+    settings.board_array[parseInt(i, 10) * parseInt(settings.cells, 10) + parseInt(j, 10)] = new_checker_type;
     return settings;
 };
 
@@ -27,11 +42,11 @@ function change_in_board_array(cell1, cell2, settings) {
     var cell2_i = parseInt($(cell2).attr("i"), 10);
     var cell2_j = parseInt($(cell2).attr("j"), 10);
 
-    var number1 = get_board_number_by_i_j(cell1_i, cell1_j, settings);
-    var number2 = get_board_number_by_i_j(cell2_i, cell2_j, settings);
+    var checker_type1 = get_checker_type_by_ij(cell1_i, cell1_j, settings);
+    var checker_type2 = get_checker_type_by_ij(cell2_i, cell2_j, settings);
 
-    settings = set_board_number_by_i_j(cell1_i, cell1_j, number2, settings);
-    settings = set_board_number_by_i_j(cell2_i, cell2_j, number1, settings);
+    settings = set_checker_type_by_ij(cell1_i, cell1_j, checker_type2, settings);
+    settings = set_checker_type_by_ij(cell2_i, cell2_j, checker_type1, settings);
     return settings;
 }
 
@@ -43,11 +58,11 @@ function enable_move(checker, cell, settings) {
     var checker_i = parseInt($(checker).attr("i"), 10);
     var checker_j = parseInt($(checker).attr("j"), 10);
     var cells = parseInt(settings.cells, 10);
-    var can_beat_arr = can_beat(checker, settings);
+    var need_beat_arr = need_beat(checker, false, settings);
 
-    if (can_beat_arr.length > 0) {
-        for (var x = 0; x < can_beat_arr.length; x++)
-            if (can_beat_arr[x] == cell_i * cells + cell_j)
+    if (need_beat_arr.length > 0) {
+        for (var x = 0; x < need_beat_arr.length; x++)
+            if (need_beat_arr[x] == get_array_id_by_ij(cell_i, cell_j, settings))
                 return true;
     }
     else
@@ -56,7 +71,7 @@ function enable_move(checker, cell, settings) {
             {
                 if ((cell_i == checker_i - 1) &&
                         (Math.abs(checker_j - cell_j) == 1) &&
-                        (get_board_number_by_i_j(cell_i, cell_j, settings) == settings.board_dictionary.play)) {
+                        (get_checker_type_by_ij(cell_i, cell_j, settings) == settings.board_dictionary.play)) {
                     return true;
                 }
                 break;
@@ -65,7 +80,7 @@ function enable_move(checker, cell, settings) {
             {
                 if ((cell_i == checker_i + 1) &&
                         (Math.abs(checker_j - cell_j) == 1) &&
-                        (get_board_number_by_i_j(cell_i, cell_j, settings) == settings.board_dictionary.play)) {
+                        (get_checker_type_by_ij(cell_i, cell_j, settings) == settings.board_dictionary.play)) {
                     return true;
                 }
                 break;
@@ -75,57 +90,48 @@ function enable_move(checker, cell, settings) {
     return result;
 };
 
-function can_beat(checker, settings) {
-    var checker_type = parseInt($(checker).attr("checker_type"), 10);
-    var checker_i = parseInt($(checker).attr("i"), 10);
-    var checker_j = parseInt($(checker).attr("j"), 10);
+function need_beat(checker, only_this/*true in checker start beat and neet to beat several checkers */, settings) {
     var cells = parseInt(settings.cells, 10);
     var result = new Array();
 
-    if ((checker_type == settings.board_dictionary.white_checker) || (checker_type == settings.board_dictionary.black_checker)) {
-        for (var x = -1; x <= 1; x = x + 2)
-            for (var y = -1; y <= 1; y = y + 2) {
-                if (((checker_i + x > 0) && (checker_i + x < cells - 1)) &&
-                            ((checker_j + y > 0) && (checker_j + y < cells - 1)) &&
-                            (get_board_number_by_i_j(checker_i + x, checker_j + y, settings) != checker_type) &&
-                            (get_board_number_by_i_j(checker_i + x, checker_j + y, settings) != checker_type + 2) &&
-                            (get_board_number_by_i_j(checker_i + x, checker_j + y, settings) > settings.board_dictionary.play) &&
-                            (get_board_number_by_i_j(checker_i + 2 * x, checker_j + 2 * y, settings) == settings.board_dictionary.play)) {
-                    result.push(parseInt((checker_i + 2 * x) * cells + (checker_j + 2 * y), 10));
-                }
-                //                        console.log(" ");
-                //                        console.log("x: " + x.toString());
-                //                        console.log("y: " + y.toString());
-                //                        console.log("checker_i + x > 0: " + (checker_i + x > 0));
-                //                        console.log("checker_i + x < cells - 1: " + (checker_i + x < cells - 1));
-                //                        console.log("checker_j + y > 0: " + (checker_j + y > 0));
-                //                        console.log("checker_j + y < cells - 1: " + (checker_j + y < cells - 1));
-                //                        console.log("get_board_number_by_i_j(checker_i + x, checker_j + y, settings) != checker_type: " + (get_board_number_by_i_j(checker_i + x, checker_j + y, settings) != checker_type));
-                //                        console.log("get_board_number_by_i_j(checker_i + x, checker_j + y, settings) != checker_type + 2: " + (get_board_number_by_i_j(checker_i + x, checker_j + y, settings) != checker_type + 2));
-                //                        console.log("get_board_number_by_i_j(checker_i + x, checker_j + y, settings) > settings.board_dictionary.play: " + (get_board_number_by_i_j(checker_i + x, checker_j + y, settings) > settings.board_dictionary.play));
-                //                        console.log("get_board_number_by_i_j(checker_i + 2 * x, checker_j + 2 * y, settings) == settings.board_dictionary.play: " + (get_board_number_by_i_j(checker_i + 2 * x, checker_j + 2 * y, settings) == settings.board_dictionary.play));
-                //                        console.log(" ");
-                //                        console.log(get_board_number_by_i_j(checker_i + x, checker_j + y, settings).toString() + " " + checker_type.toString());
+    var same_color_checkers = (settings.move_checkers.white.indexOf(parseInt($(checker).attr("checker_type"), 10)) > 0) ? settings.move_checkers.white : settings.move_checkers.black;
+    var checkers_id = new Array();
+
+    if (only_this)
+        checkers_id.push({ 'checker_type': parseInt($(checker).attr("checker_type"), 10),
+            'i': parseInt($(checker).attr("i"), 10),
+            'j': parseInt($(checker).attr("j"), 10)
+        });
+    else
+        for (var w = 0; w < settings.board_array.length; w++)
+            if (same_color_checkers.indexOf(settings.board_array[w]) >= 0) {
+                var ij = get_ij_by_array_id(w, settings);
+                checkers_id.push({ 'checker_type': settings.board_array[w], 'i': ij.i, 'j': ij.j });
             }
-    }
 
-    else if ((checker_type == settings.board_dictionary.white_king) || (checker_type == settings.board_dictionary.black_king)) {
+            for (var w = 0; w < checkers_id.length; w++) {
+                var chk = checkers_id[w];
+                if (settings.only_checkers.indexOf(chk.checker_type) >= 0) {
+                    var beat = { 'from': get_array_id_by_ij(chk.i, chk.j), 'to': new Array(), 'bits': new Array() };
+                    for (var x = -1; x <= 1; x = x + 2)
+                        for (var y = -1; y <= 1; y = y + 2) {
+                            if (((chk.i + x > 0) && (chk.i + x < cells - 1)) &&
+                            ((chk.j + y > 0) && (chk.j + y < cells - 1)) &&
+                            (get_checker_type_by_ij(chk.i + x, chk.j + y, settings) != chk.checker_type) &&
+                            (get_checker_type_by_ij(chk.i + x, chk.j + y, settings) != chk.checker_type + 2) &&
+                            (get_checker_type_by_ij(chk.i + x, chk.j + y, settings) > settings.board_dictionary.play) &&
+                            (get_checker_type_by_ij(chk.i + 2 * x, chk.j + 2 * y, settings) == settings.board_dictionary.play)) {
+                                //result.push(parseInt((chk.i + 2 * x) * cells + (chk.j + 2 * y), 10));
+                                beat.to.push(get_array_id_by_ij(chk.i + 2 * x, chk.j + 2 * y));
+                                beat.bits.push(get_array_id_by_ij(chk.i + x, chk.j + y));
+                            }
+                        }
+                        if (move.to.length > 0) result.push(beat);
+                }
 
-    }
+                //else if (settings.only_kings.indexOf(checker_type) >= 0) {
 
+                //}
+            }
     return result;
 };
-
-//function need_beat(checker, settings) {
-//    var result = new Array();
-//    var checker_i = parseInt($(checker).attr("i"),10);
-//    var checker_j = parseInt($(checker).attr("j"),10);
-//    var checker_type = parseInt($(checker).attr("checker_type"), 10);
-
-//    var same_color_checkers = $("." + settings.checker_class)
-//    if (checker_type == settings.board_dictionary.white_checker) {
-//        
-//    }
-//    else {
-//    }
-//}
