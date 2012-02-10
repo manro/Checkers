@@ -1,0 +1,4 @@
+﻿.cell { position: absolute; z-index: 1; margin: 0; padding: 0; display: block; }
+.cell-white { background: #F4EADF; }
+.cell-black { background: #C08243; }
+.board-label { position: absolute; border-radius: 2px; background: #E0E0E0; z-index: 2; text-align: center; cursor: default; }

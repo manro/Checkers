@@ -1,0 +1,13 @@
+﻿body 
+{
+    font-family: Tahoma, Helvetica;
+    font-size: 12px;
+    padding: 0px;
+    margin: 0px;
+}
+
+#board
+{
+    margin: 0 auto;
+    top: 50px;
+}
