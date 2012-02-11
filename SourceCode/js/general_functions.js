@@ -62,8 +62,11 @@ function enable_move(checker, cell, settings) {
 
     if (need_beat_arr.length > 0) {
         for (var x = 0; x < need_beat_arr.length; x++)
-            if (need_beat_arr[x] == get_array_id_by_ij(cell_i, cell_j, settings))
-                return true;
+        //if (need_beat_arr[x] == get_array_id_by_ij(cell_i, cell_j, settings))
+            if (need_beat_arr[x].from == get_array_id_by_ij(checker_i, checker_j, settings))
+                for (var y = 0; y < need_beat_arr[x].to.length; y++)
+                    if (need_beat_arr[x].to[y] == get_array_id_by_ij(cell_i, cell_j, settings))
+                        return true;
     }
     else
         switch (checker_type) {
@@ -94,7 +97,7 @@ function need_beat(checker, only_this/*true in checker start beat and neet to be
     var cells = parseInt(settings.cells, 10);
     var result = new Array();
 
-    var same_color_checkers = (settings.move_checkers.white.indexOf(parseInt($(checker).attr("checker_type"), 10)) > 0) ? settings.move_checkers.white : settings.move_checkers.black;
+    var same_color_checkers = (settings.move_checkers.white.indexOf(parseInt($(checker).attr("checker_type"), 10)) >= 0) ? settings.move_checkers.white : settings.move_checkers.black;
     var checkers_id = new Array();
 
     if (only_this)
@@ -112,7 +115,7 @@ function need_beat(checker, only_this/*true in checker start beat and neet to be
             for (var w = 0; w < checkers_id.length; w++) {
                 var chk = checkers_id[w];
                 if (settings.only_checkers.indexOf(chk.checker_type) >= 0) {
-                    var beat = { 'from': get_array_id_by_ij(chk.i, chk.j), 'to': new Array(), 'bits': new Array() };
+                    var beat = { 'from': get_array_id_by_ij(chk.i, chk.j, settings), 'to': new Array(), 'bits': new Array() };
                     for (var x = -1; x <= 1; x = x + 2)
                         for (var y = -1; y <= 1; y = y + 2) {
                             if (((chk.i + x > 0) && (chk.i + x < cells - 1)) &&
@@ -122,16 +125,18 @@ function need_beat(checker, only_this/*true in checker start beat and neet to be
                             (get_checker_type_by_ij(chk.i + x, chk.j + y, settings) > settings.board_dictionary.play) &&
                             (get_checker_type_by_ij(chk.i + 2 * x, chk.j + 2 * y, settings) == settings.board_dictionary.play)) {
                                 //result.push(parseInt((chk.i + 2 * x) * cells + (chk.j + 2 * y), 10));
-                                beat.to.push(get_array_id_by_ij(chk.i + 2 * x, chk.j + 2 * y));
-                                beat.bits.push(get_array_id_by_ij(chk.i + x, chk.j + y));
+                                beat.to.push(get_array_id_by_ij(chk.i + 2 * x, chk.j + 2 * y, settings));
+                                beat.bits.push(get_array_id_by_ij(chk.i + x, chk.j + y, settings));
                             }
                         }
-                        if (move.to.length > 0) result.push(beat);
+                        if (beat.to.length > 0) 
+                            result.push(beat);
                 }
 
                 //else if (settings.only_kings.indexOf(checker_type) >= 0) {
 
                 //}
-            }
+                }
+                console.log(result);
     return result;
 };
