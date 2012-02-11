@@ -4,10 +4,13 @@
     font-size: 12px;
     padding: 0px;
     margin: 0px;
+    background: rgb(207,205,197);
+    text-align: center;
+    padding: 50px;
 }
 
 #board
 {
     margin: 0 auto;
-    top: 50px;
+    --top: 50px;
 }

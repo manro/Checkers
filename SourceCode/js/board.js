@@ -29,15 +29,15 @@
         init: function (options) {
             var settings = $.extend({
                 'cells': 8,
-                'cell_width': 48, // in px
-                'cell_height': 48, // in px
+                'cell_width': 64, // in px
+                'cell_height': 64, // in px
                 'board_labels': true,
                 'board_label_class': 'board-label',
                 'cell_class': 'cell',
                 'cell_white_class': 'cell-white',
                 'cell_black_class': 'cell-black',
-                'checker_width': 36, // in px
-                'checker_height': 36, // in px
+                'checker_width': 56, // in px
+                'checker_height': 56, // in px
                 'checker_class': 'checker',
                 'checker_white_class': 'checker-white',
                 'checker_black_class': 'checker-black',
@@ -78,7 +78,9 @@
             return this.each(function () {
 
                 // draw board - set border and width/height
-                $(this).css("position", "relative").css("border", "1px solid black")
+                $(this).css("position", "relative")
+                       .wrap("<div class='board-wrap'>")     
+                       .css("border", "1px solid #808080")//.css("border", "1px solid black")
                        .width(settings.cell_width * settings.cells)
                        .height(settings.cell_height * settings.cells);
 

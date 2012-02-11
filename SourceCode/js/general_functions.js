@@ -120,8 +120,7 @@ function need_beat(checker, only_this/*true in checker start beat and neet to be
                         for (var y = -1; y <= 1; y = y + 2) {
                             if (((chk.i + x > 0) && (chk.i + x < cells - 1)) &&
                             ((chk.j + y > 0) && (chk.j + y < cells - 1)) &&
-                            (get_checker_type_by_ij(chk.i + x, chk.j + y, settings) != chk.checker_type) &&
-                            (get_checker_type_by_ij(chk.i + x, chk.j + y, settings) != chk.checker_type + 2) &&
+                            (same_color_checkers.indexOf(get_checker_type_by_ij(chk.i + x, chk.j + y, settings)) < 0) &&
                             (get_checker_type_by_ij(chk.i + x, chk.j + y, settings) > settings.board_dictionary.play) &&
                             (get_checker_type_by_ij(chk.i + 2 * x, chk.j + 2 * y, settings) == settings.board_dictionary.play)) {
                                 //result.push(parseInt((chk.i + 2 * x) * cells + (chk.j + 2 * y), 10));
@@ -137,6 +136,5 @@ function need_beat(checker, only_this/*true in checker start beat and neet to be
 
                 //}
                 }
-                console.log(result);
     return result;
 };

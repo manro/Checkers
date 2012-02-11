@@ -1,4 +1,41 @@
 ﻿.cell { position: absolute; z-index: 1; margin: 0; padding: 0; display: block; }
 .cell-white { background: #F4EADF; }
 .cell-black { background: #C08243; }
-.board-label { position: absolute; border-radius: 2px; background: #E0E0E0; z-index: 2; text-align: center; cursor: default; }
+.board-label 
+{
+    position: absolute; 
+    border-radius: 2px; 
+    background: #E0E0E0; 
+    z-index: 2; 
+    text-align: center; 
+    cursor: default; 
+    border-width: 1px;
+    border-style: solid;
+    border-left-color: #EAEAEA;
+    border-top-color: #EAEAEA;
+    border-right-color: #D6D6D6;
+    border-bottom-color: #D6D6D6;
+    behavior: url(libs/pie/PIE.htc);
+
+}
+
+.board-wrap 
+{
+    margin: 0 auto;
+    padding: 64px;
+    border-radius: 20px;
+    background: rgb(203,201,192);
+    display: inline-block;
+    border-width: 1px;
+    border-style: solid;
+    border-left-color: rgb(183,183,182);
+    border-top-color: rgb(183,183,182);
+    border-right-color: rgb(229,228,224);
+    border-bottom-color: rgb(229,228,224);
+}
+
+.broken-box 
+{
+    
+}    
+    
