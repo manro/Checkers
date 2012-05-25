@@ -4,3 +4,6 @@ http://enterprisejquery.com/2010/07/create-your-first-jquery-plugin-part-2-revis
 http://blog.jeremymartin.name/2008/02/building-your-first-jquery-plugin-that.html
 
 http://www.mattwrock.com/post/2009/10/14/Implementing-custom-Membership-Provider-and-Role-Provider-for-Authinticating-ASPNET-MVC-Applications.aspx
+
+http://www.nczonline.net/blog/2009/06/09/computer-science-in-javascript-binary-search-tree-part-1/
+http://blogfigaroo.ru/2010/09/misc/shashki-ai/

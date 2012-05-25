@@ -43,15 +43,21 @@
 
                 set_position_checker_in_cell(checker, settings);
 
-                $(checker).draggable({ containment: [parseInt($(board).offset().left),
-                                                     parseInt($(board).offset().top),
-                                                     parseInt($(board).offset().left)
-                                                        + Math.round(settings.cell_width * (settings.cells - (settings.checker_width / settings.cell_width))),
-                                                     parseInt($(board).offset().top)
-                                                        + Math.round(settings.cell_height * (settings.cells - (settings.checker_height / settings.cell_height)))],
+                $(checker).draggable({
+                    containment: [parseInt($(board).offset().left),
+                                   parseInt($(board).offset().top),
+                                   parseInt($(board).offset().left) + Math.round(settings.cell_width * (settings.cells - (settings.checker_width / settings.cell_width))),
+                                   parseInt($(board).offset().top) + Math.round(settings.cell_height * (settings.cells - (settings.checker_height / settings.cell_height)))],
                     zIndex: 3,
                     opacity: 0.75,
-                    start: function () { $(this).addClass("checker-shadow").parent().css("zIndex", "2"); },
+                    start: function (event, ui) {
+//                        var checker = ui.helper;
+//                        var checker_type = $(checker).attr("checker_type");
+//                        if (settings.move_checkers[settings.current_checkers_move].indexOf(checker_type) < 0) {
+//                            return false;
+//                        }
+                        $(this).addClass("checker-shadow").parent().css("zIndex", "2");
+                    },
                     stop: function () { $(this).removeClass("checker-shadow").parent().css("zIndex", "1"); },
                     revert: true,
                     revertDuration: '250',

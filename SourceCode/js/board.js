@@ -43,18 +43,25 @@
                 'checker_black_class': 'checker-black',
                 'king_white_class': 'king-white',
                 'king_black_class': 'king-black',
+                'checker_beaten_mark_class': 'checker-beaten-mark',
+                'board_wrapper_class': 'board-wrap',
+                'default_border_class' : 'bordered',
+                'beat_box_class': 'beat-box',
+                'beat_box_white_class' : 'beat-white',
+                'beat_box_black_class' : 'beat-black',
+                'beat_cell_class': 'beat-cell',
                 'board_array': board_array,
                 'board_dictionary': board_dictionary
             }, options);
 
             // color classes - for comfort using
-            var color_classes = [ settings.cell_white_class,
+            var color_classes = [settings.cell_white_class,
                                   settings.cell_black_class,
                                   settings.checker_white_class,
                                   settings.checker_black_class,
                                   settings.king_white_class,
                                   settings.king_black_class];
-            
+
             //checkers array combinations for comfort use
             var only_checkers = [board_dictionary.white_checker, board_dictionary.black_checker];
             var only_kings = [board_dictionary.white_king, board_dictionary.black_king];
@@ -62,7 +69,7 @@
                 'white': [board_dictionary.white_checker, board_dictionary.white_king],
                 'black': [board_dictionary.black_checker, board_dictionary.black_king]
             };
-            var current_checkers_move = move_checkers.white;
+            var current_checkers_move = 'white';
 
             //extend settings comfort options
             settings = $.extend(settings, {
@@ -70,52 +77,36 @@
                 'only_checkers': only_checkers,
                 'only_kings': only_kings,
                 'move_checkers': move_checkers,
-                'current_checkers_move': current_checkers_move 
-                });
+                'current_checkers_move': current_checkers_move
+            });
 
             //var color_classes = [settings.cell_white_class.toString(), settings.cell_black_class.toString()];
 
             return this.each(function () {
 
                 // draw board - set border and width/height
-                $(this).css("position", "relative")
-                       .wrap("<div class='board-wrap'>")     
-                       .css("border", "1px solid #808080")//.css("border", "1px solid black")
+                var board_wrapper = $("<div />").addClass(settings.board_wrapper_class).addClass(settings.default_border_class);
+                
+                //extend settings with board wrapper
+                settings = $.extend(settings, {
+                    
+                });
+
+                $(this).parent().append(board_wrapper);
+                $(this).appendTo(board_wrapper);
+                $(this).addClass("board")
                        .width(settings.cell_width * settings.cells)
                        .height(settings.cell_height * settings.cells);
 
-                // draw cells
-                for (var i = 0; i < settings.cells; i++) {
-                    for (var j = 0; j < settings.cells; j++) {
-                        var cell = $("<div />").appendTo($(this))
-                        .addClass(settings.cell_class)
-                        .addClass(color_classes[(i + j) % 2])
-                        .css("width", settings.cell_width)
-                        .css("height", settings.cell_height)
-                        .css("left", j * settings.cell_width)
-                        .css("top", i * settings.cell_height)
-                        .attr("i", i)
-                        .attr("j", j);
 
-                        // Bind cell droppable (for checker)
-                        $(cell).droppable({
-                            drop: function (event, ui) {
-                                var checker = ui.draggable;
-                                if (!enable_move(checker, this, settings)) // Check if checker can move to this cell
-                                    return false;
-                                $(checker).parent().css("zIndex", "1"); // Set default cell z-index
-                                settings = change_in_board_array($(checker).parent(), $(this), settings); // set changes in settings after move
-                                $(this).append(checker);
-                                $(checker).attr("i", $(this).attr("i")).attr("j", $(this).attr("j")); // set checker i and j after move
-                                set_position_checker_in_cell(ui.draggable, settings); // position checker in cell by center
-                            }
-                        });
+                // draw beat boxes
+                $(this).beat_boxes(settings);
 
-                    };
-                };
+                // draw cells on board
+                $(this).board_cells(settings);
 
+                //draw labels (alphabet)
                 if (settings.board_labels) {
-                    //draw labels
                     $(this).board_labels(settings);
                 };
 
